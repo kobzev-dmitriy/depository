@@ -1,0 +1,16 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="SelenideAutoTests" verbose="1">
+
+    <listeners>
+        <listener class-name="A_BaseTestListener"/>
+    </listeners>
+
+    <test name="Tests">
+        <classes>
+            <class name="UsersFunctTests" />
+            <class name="UsersScenarTests" />
+        </classes>
+    </test>
+
+</suite>
