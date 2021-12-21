@@ -1,4 +1,4 @@
-package app;
+00package app;
 
 public class AppConfig {
 
@@ -6,7 +6,7 @@ public class AppConfig {
 
     public static final String loginUser = "admin";
 
-    public static final String passwordUser = "admin";
+    public static final String passwordUser = "Deep2000";
 
     public static final String loginDefaultUser = "admin1";
 
