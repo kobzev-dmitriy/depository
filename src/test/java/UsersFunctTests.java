@@ -20,7 +20,7 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class UsersFunctTests extends A_BaseTest
 {
-    @Test
+    /*@Test
     public void A_createNewUser() {
         UsersData userData = new UsersData()
                 .withLogin("Login").withName("Name").withSurname("Surname").withFathername("Fathername")
@@ -31,6 +31,7 @@ public class UsersFunctTests extends A_BaseTest
         app.createUsersPage.createUser(userData);
         app.createUsersPage.successMessageClick();
     }
+    */
 
     @Test
     // 3905 Пользователи. Обязательные поля при создании
@@ -734,11 +735,12 @@ public class UsersFunctTests extends A_BaseTest
         app.listUsersPage.deleteUserBySearchName("TestRegistr");
     }
 
-    @Test
+    /*@Test
     public void O_deleteUser() {
         app.mainPage.openUsers();
         app.listUsersPage.deleteUserBySearchName("Name");
     }
+    */
 
     //@Test
     // 3924 Пользователи. Одновременная авторизация в разных браузерах
