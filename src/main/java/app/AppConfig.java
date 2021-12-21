@@ -2,7 +2,8 @@ package app;
 
 public class AppConfig {
 
-    public static final String baseUrl = "http://192.168.58.196:9080";
+public static final String baseUrl = "http://192.168.58.196:9080";
+main
 
     public static final String loginUser = "admin";
 
