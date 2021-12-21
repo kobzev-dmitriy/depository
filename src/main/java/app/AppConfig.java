@@ -10,6 +10,6 @@ public class AppConfig {
 
     public static final String loginDefaultUser = "admin1";
 
-    public static final String passwordDefaultUser = "admin1";
+    public static final String passwordDefaultUser = "Deep2000";
 
 }
