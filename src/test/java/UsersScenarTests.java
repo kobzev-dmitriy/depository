@@ -1,5 +1,6 @@
 import app.AppConfig;
 import com.codeborne.selenide.Selenide;
+import helpers.Driver;
 import model.UsersData;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -16,7 +17,7 @@ public class UsersScenarTests extends A_BaseTest {
         app.listUsersPage.createButtonClick();
         app.createUsersPage.createUser(userData);
         app.createUsersPage.successMessageClick();
-        Selenide.refresh();
+        Driver.refresh();
         app.createUsersPage.checkEnabledEditUserFields();
         Assert.assertEquals(app.createUsersPage.infoFromEditUserForm().getLogin(), userData.getLogin());
         Assert.assertEquals(app.createUsersPage.infoFromEditUserForm().getName(), userData.getName());
@@ -51,6 +52,7 @@ public class UsersScenarTests extends A_BaseTest {
         app.createUsersPage.createUser(userData);
         app.createUsersPage.successMessageClick();
 
+
         app.mainPage.openUsers();
         app.listUsersPage.searchUserByName("TestEdit");
         app.listUsersPage.editRow1ListUsersClick();
@@ -61,7 +63,7 @@ public class UsersScenarTests extends A_BaseTest {
                 .withEmail("email2@email2.com").withPassword("TestEdit2").withDescription("TestEdit2").withGroup("Администратор");
         app.createUsersPage.editUser(userData2);
         app.createUsersPage.saveButtonClick();
-        Selenide.refresh();
+        Driver.refresh();
 
         // Проверяем корректность изменений значений полей в форме редактирования пользователей
         Assert.assertEquals(app.createUsersPage.infoFromEditUserForm().getLogin(), userData2.getLogin());
@@ -84,6 +86,7 @@ public class UsersScenarTests extends A_BaseTest {
         app.mainPage.openUsers();
         app.listUsersPage.deleteUserBySearchName("TestEdit2");
         app.createUsersPage.successMessageClick();
+
     }
 
     @Test
@@ -123,6 +126,7 @@ public class UsersScenarTests extends A_BaseTest {
         app.listUsersPage.createButtonClick();
         app.createUsersPage.createUser(userData);
         app.createUsersPage.successMessageClick();
+
         //Завершаем сессию своим админом и пробуем авторизоваться под "TestActive". Успешно, пользователь авторизовался
 
         app.mainPage.openUsers();
@@ -168,7 +172,9 @@ public class UsersScenarTests extends A_BaseTest {
         app.mainPage.openUsers();
         app.mainPage.logout();
 
+        app.loginPage.open();
         app.loginPage.login(AppConfig.loginUser, AppConfig.passwordUser);
+
 
         app.mainPage.openUsers();
         app.listUsersPage.deleteUserBySearchName("TestActive");
@@ -190,7 +196,7 @@ public class UsersScenarTests extends A_BaseTest {
         app.createUsersPage.activityClick();
         app.createUsersPage.editUser(userData);
         app.createUsersPage.saveButtonClick();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.infoFromEditUserForm().getLogin(), userData.getLogin());
         Assert.assertEquals(app.createUsersPage.infoFromEditUserForm().getName(), userData.getName());
         Assert.assertEquals(app.createUsersPage.infoFromEditUserForm().getSurname(), userData.getSurname());
@@ -281,6 +287,7 @@ public class UsersScenarTests extends A_BaseTest {
         app.mainPage.openUsers();
         app.mainPage.logout();
 
+        app.loginPage.open();
         app.loginPage.login(AppConfig.loginUser, AppConfig.passwordUser);
         app.mainPage.openUsers();
         app.listUsersPage.deleteUserBySearchName("TestChangePassword");
@@ -329,6 +336,7 @@ public class UsersScenarTests extends A_BaseTest {
         app.mainPage.openUsers();
         app.mainPage.logout();
 
+        app.loginPage.open();
         app.loginPage.login(AppConfig.loginUser, AppConfig.passwordUser);
         app.mainPage.openUsers();
         app.listUsersPage.deleteUserBySearchName("TestPassword");
@@ -387,6 +395,7 @@ public class UsersScenarTests extends A_BaseTest {
     // 3904 Пользователи. Наличие полей, внешний вид модуля
     public void I_formModuleUsers() {
         app.mainPage.openUsers();
+        Driver.refresh();
         Assert.assertTrue(app.listUsersPage.countSearchResult() > 0);
         app.listUsersPage.checkEnabledListUsersFields();
     }
@@ -641,9 +650,11 @@ public class UsersScenarTests extends A_BaseTest {
         app.createUsersPage.successMessageClick();
 
         app.mainPage.logout();
+        app.loginPage.open();
         app.loginPage.login("TestPassword1", "QWERTY12");
         app.mainPage.logout();
 
+        app.loginPage.open();
         app.loginPage.login(AppConfig.loginUser, AppConfig.passwordUser);
         UsersData userData2 = new UsersData()
                 .withLogin("TestPassword2").withName("TestPassword2").withSurname("TestPassword2").withFathername("TestPassword2")
@@ -655,9 +666,11 @@ public class UsersScenarTests extends A_BaseTest {
         app.createUsersPage.successMessageClick();
 
         app.mainPage.logout();
+        app.loginPage.open();
         app.loginPage.login("TestPassword2", "123456qazwsx");
         app.mainPage.logout();
 
+        app.loginPage.open();
         app.loginPage.login(AppConfig.loginUser, AppConfig.passwordUser);
         UsersData userData3 = new UsersData()
                 .withLogin("TestPassword3").withName("TestPassword3").withSurname("TestPassword3").withFathername("TestPassword3")
@@ -669,9 +682,11 @@ public class UsersScenarTests extends A_BaseTest {
         app.createUsersPage.successMessageClick();
 
         app.mainPage.logout();
+        app.loginPage.open();
         app.loginPage.login("TestPassword3", "Password9876");
         app.mainPage.logout();
 
+        app.loginPage.open();
         app.loginPage.login(AppConfig.loginUser, AppConfig.passwordUser);
         app.mainPage.openUsers();
         app.listUsersPage.deleteUserBySearchName("TestPassword1");
@@ -697,9 +712,11 @@ public class UsersScenarTests extends A_BaseTest {
         app.createUsersPage.successMessageClick();
 
         app.mainPage.logout();
+        app.loginPage.open();
         app.loginPage.login("TestPassword", "Password123");
         app.mainPage.logout();
 
+        app.loginPage.open();
         app.loginPage.login(AppConfig.loginUser, AppConfig.passwordUser);
         app.mainPage.openUsers();
         app.listUsersPage.searchUserByName("TestPassword");
@@ -720,9 +737,11 @@ public class UsersScenarTests extends A_BaseTest {
 
         app.mainPage.openUsers();
         app.mainPage.logout();
+        app.loginPage.open();
         app.loginPage.login("TestPassword", "123Пароль");
         Assert.assertEquals(app.loginPage.errorMessageGetText(), "Неверные учетные данные пользователя");
 
+        app.loginPage.open();
         app.loginPage.login(AppConfig.loginUser, AppConfig.passwordUser);
         app.mainPage.openUsers();
         app.listUsersPage.searchUserByName("TestPassword");
@@ -737,9 +756,11 @@ public class UsersScenarTests extends A_BaseTest {
 
         app.mainPage.openUsers();
         app.mainPage.logout();
+        app.loginPage.open();
         app.loginPage.login("TestPassword", "123Пароль");
         Assert.assertEquals(app.loginPage.errorMessageGetText(), "Неверные учетные данные пользователя");
 
+        app.loginPage.open();
         app.loginPage.login(AppConfig.loginUser, AppConfig.passwordUser);
         app.mainPage.openUsers();
         app.listUsersPage.searchUserByName("TestPassword");
@@ -753,6 +774,7 @@ public class UsersScenarTests extends A_BaseTest {
 
         app.mainPage.openUsers();
         app.mainPage.logout();
+        app.loginPage.open();
         app.loginPage.login("TestPassword", "Password123");
         Assert.assertEquals(app.loginPage.errorMessageGetText(), "Неверные учетные данные пользователя");
 
@@ -760,6 +782,7 @@ public class UsersScenarTests extends A_BaseTest {
         app.mainPage.openUsers();
         app.mainPage.logout();
 
+        app.loginPage.open();
         app.loginPage.login(AppConfig.loginUser, AppConfig.passwordUser);
 
         app.mainPage.openUsers();
@@ -790,11 +813,93 @@ public class UsersScenarTests extends A_BaseTest {
 
         app.mainPage.openUsers();
         app.mainPage.logout();
+        app.loginPage.open();
         app.loginPage.login("TestCountSymbols", "qw3Rqw3qw");
         app.mainPage.logout();
 
+        app.loginPage.open();
         app.loginPage.login(AppConfig.loginUser, AppConfig.passwordUser);
         app.mainPage.openUsers();
         app.listUsersPage.deleteUserBySearchName("TestCountSymbols");
+    }
+
+    @Test
+    // 3920 Пользователи. Создание, авторизация 25+
+    public void Q_createLoginUser25plus() {
+        // В системе предварительно заведено минимум 27 пользователей
+        UsersData userData = new UsersData()
+                .withLogin("zzzzzzzzz").withName("zzzzzzzzz").withSurname("zzzzzzzzz").withFathername("zzzzzzzzz")
+                .withPhone("Keys.NUMPAD9, Keys.NUMPAD9, Keys.NUMPAD9, Keys.NUMPAD9, Keys.NUMPAD9, Keys.NUMPAD9,Keys.NUMPAD9,Keys.NUMPAD9,Keys.NUMPAD9,Keys.NUMPAD9,Keys.NUMPAD9")
+                .withEmail("zzzzzzzzz@email.com").withPassword("Deep2000").withDescription("zzzzzzzzz");
+        app.mainPage.openUsers();
+        app.listUsersPage.createButtonClick();
+        app.createUsersPage.createUser(userData);
+        app.createUsersPage.successMessageClick();
+        app.mainPage.openUsers();
+        app.mainPage.logout();
+
+        app.loginPage.open();
+        app.loginPage.login("zzzzzzzzz", "Deep2000");
+        app.mainPage.logout();
+
+        app.loginPage.open();
+        app.loginPage.login(AppConfig.loginUser, AppConfig.passwordUser);
+        app.mainPage.openUsers();
+        app.listUsersPage.deleteUserBySearchName("zzzzzzzzz");
+    }
+
+    @Test
+    // 3960 Пользователи. Изменение 25+
+    public void Q_changeUser25plus() {
+        // В системе предварительно заведено минимум 27 пользователей
+        UsersData userData = new UsersData()
+                .withLogin("zzzzzzzzz").withName("zzzzzzzzz").withSurname("zzzzzzzzz").withFathername("zzzzzzzzz")
+                .withPhone("Keys.NUMPAD9, Keys.NUMPAD9, Keys.NUMPAD9, Keys.NUMPAD9, Keys.NUMPAD9, Keys.NUMPAD9,Keys.NUMPAD9,Keys.NUMPAD9,Keys.NUMPAD9,Keys.NUMPAD9,Keys.NUMPAD9")
+                .withEmail("zzzzzzzzz@email.com").withPassword("Deep2000").withDescription("zzzzzzzzz");
+        app.mainPage.openUsers();
+        app.listUsersPage.createButtonClick();
+        app.createUsersPage.createUser(userData);
+        app.createUsersPage.successMessageClick();
+
+        app.mainPage.openUsers();
+        app.listUsersPage.searchUserByName("zzzzzzzzz");
+        app.listUsersPage.editRow1ListUsersClick();
+        UsersData userData2 = new UsersData()
+                .withLogin("zzzzzzzzz2").withName("zzzzzzzzz2").withSurname("zzzzzzzzz2").withFathername("zzzzzzzzz2")
+                .withPhone("Keys.NUMPAD7, Keys.NUMPAD9, Keys.NUMPAD8, Keys.NUMPAD7, Keys.NUMPAD4, Keys.NUMPAD5,Keys.NUMPAD6,Keys.NUMPAD7,Keys.NUMPAD8,Keys.NUMPAD9,Keys.NUMPAD10")
+                .withEmail("email3@email3.com").withPassword("Deep2000").withDescription("zzzzzzzzz2").withGroup("Администратор");
+        app.createUsersPage.editUser(userData2);
+        app.createUsersPage.saveButtonClick();
+        Driver.refresh();
+
+        // Проверяем корректность изменений значений полей в форме редактирования пользователей
+        Assert.assertEquals(app.createUsersPage.infoFromEditUserForm().getLogin(), userData2.getLogin());
+        Assert.assertEquals(app.createUsersPage.infoFromEditUserForm().getName(), userData2.getName());
+        Assert.assertEquals(app.createUsersPage.infoFromEditUserForm().getSurname(), userData2.getSurname());
+        Assert.assertEquals(app.createUsersPage.infoFromEditUserForm().getFathername(), userData2.getFathername());
+        Assert.assertEquals(app.createUsersPage.infoFromEditUserForm().getEmail(), userData2.getEmail());
+        Assert.assertEquals(app.createUsersPage.infoFromEditUserForm().getGroup(), userData2.getGroup());
+        Assert.assertEquals(app.createUsersPage.infoFromEditUserForm().getDescription(), userData2.getDescription());
+
+        // Проверяем корректность изменений значений полей в списке пользователей
+        app.mainPage.openUsers();
+        app.listUsersPage.searchUserByName("zzzzzzzzz2");
+        Assert.assertEquals(app.listUsersPage.getLoginUsersList(), userData2.getLogin());
+        Assert.assertEquals(app.listUsersPage.getNameUsersList(), userData2.getName());
+        Assert.assertEquals(app.listUsersPage.getSurnameUsersList(), userData2.getSurname());
+        Assert.assertEquals(app.listUsersPage.getEmailUsersList(), userData2.getEmail());
+        Assert.assertEquals(app.listUsersPage.getActivityUsersList(), "Да");
+
+        app.mainPage.openUsers();
+        app.mainPage.logout();
+
+        app.loginPage.open();
+        app.loginPage.login("zzzzzzzzz2", "Deep2000");
+        app.mainPage.logout();
+
+        app.loginPage.open();
+        app.loginPage.login(AppConfig.loginUser, AppConfig.passwordUser);
+        app.mainPage.openUsers();
+        app.listUsersPage.deleteUserBySearchName("zzzzzzzzz2");
     }
 }

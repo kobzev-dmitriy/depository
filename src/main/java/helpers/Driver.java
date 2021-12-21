@@ -60,6 +60,7 @@ public class Driver {
 
     public static void refresh() {
         Selenide.refresh();
+        Driver.wait(1);
     }
 
     public static void executeJs(String script) {
