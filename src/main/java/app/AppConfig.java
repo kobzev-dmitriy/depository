@@ -8,8 +8,8 @@ public class AppConfig {
 
     public static final String passwordUser = "admin";
 
-    public static final String loginDefaultUser = "admin";
+    public static final String loginDefaultUser = "admin1";
 
-    public static final String passwordDefaultUser = "admin";
+    public static final String passwordDefaultUser = "admin1";
 
 }
