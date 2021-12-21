@@ -1,4 +1,4 @@
-00package app;
+package app;
 
 public class AppConfig {
 
