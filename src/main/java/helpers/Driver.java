@@ -52,6 +52,7 @@ public class Driver {
 
     public static WebDriver currentDriver() {
         return WebDriverRunner.getSelenideDriver().getWebDriver();
+        //return WebDriverRunner.getWebDriver();
     }
 
     public static void open(String url) {
@@ -60,6 +61,7 @@ public class Driver {
 
     public static void refresh() {
         Selenide.refresh();
+        Driver.wait(1);
     }
 
     public static void executeJs(String script) {

@@ -5,6 +5,7 @@ import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideConfig;
 import com.codeborne.selenide.SelenideDriver;
+import helpers.Driver;
 import model.UsersData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -30,8 +31,7 @@ public class UsersFunctTests extends A_BaseTest
         app.listUsersPage.createButtonClick();
         app.createUsersPage.createUser(userData);
         app.createUsersPage.successMessageClick();
-    }
-    */
+    }*/
 
     @Test
     // 3905 Пользователи. Обязательные поля при создании
@@ -52,12 +52,22 @@ public class UsersFunctTests extends A_BaseTest
     @Test
     // 4595 Пользователи. Внешний вид и обязательные поля при редактировании
     public void C_reguiredFieldsEditFormUser() {
-        UsersData userData = new UsersData().withLogin("Login").withName("Name").withSurname("Surname")
+        UsersData userDataCreate = new UsersData()
+                .withLogin("Login1").withName("Name1").withSurname("Surname1").withFathername("Fathername")
+                .withPhone("Keys.NUMPAD7, Keys.NUMPAD9, Keys.NUMPAD1, Keys.NUMPAD2, Keys.NUMPAD3, Keys.NUMPAD4,Keys.NUMPAD5,Keys.NUMPAD6,Keys.NUMPAD7,Keys.NUMPAD8,Keys.NUMPAD9")
+                .withEmail("email@email.com").withPassword("Password").withDescription("Description");
+        app.mainPage.openUsers();
+        app.listUsersPage.createButtonClick();
+        app.createUsersPage.createUser(userDataCreate);
+        app.createUsersPage.successMessageClick();
+
+
+        UsersData userData = new UsersData().withLogin("Login1").withName("Name1").withSurname("Surname1")
                 .withFathername("Fathername").withPhone("79123456789").withEmail("email@email.com").withGroup("Администратор")
                 .withDescription("Description");
 
         app.mainPage.openUsers();
-        app.listUsersPage.searchUserByName("Name");
+        app.listUsersPage.searchUserByName("Name1");
         // Проверяем корректность значений полей в списке пользователей
         Assert.assertEquals(app.listUsersPage.getLoginUsersList(), userData.getLogin());
         Assert.assertEquals(app.listUsersPage.getNameUsersList(), userData.getName());
@@ -91,7 +101,7 @@ public class UsersFunctTests extends A_BaseTest
 
         app.loginPage.open();
         app.mainPage.openUsers();
-        app.listUsersPage.searchUserByName("Name");
+        app.listUsersPage.searchUserByName("Name1");
         app.listUsersPage.editRow1ListUsersClick();
         // Проверяем что изменения не сохранились
         Assert.assertEquals(app.createUsersPage.infoFromEditUserForm().getLogin(), userData.getLogin());
@@ -101,13 +111,26 @@ public class UsersFunctTests extends A_BaseTest
         Assert.assertEquals(app.createUsersPage.infoFromEditUserForm().getEmail(), userData.getEmail());
         Assert.assertEquals(app.createUsersPage.infoFromEditUserForm().getGroup(), userData.getGroup());
         Assert.assertEquals(app.createUsersPage.infoFromEditUserForm().getDescription(), userData.getDescription());
+
+        app.mainPage.openUsers();
+        app.listUsersPage.deleteUserBySearchName("Name1");
     }
 
     @Test
     // 3906 Пользователи. Значения поля Логин
     public void D_valuesFieldsLogin() {
+        UsersData userDataCreate = new UsersData()
+                .withLogin("Login2").withName("Name2").withSurname("Surname2").withFathername("Fathername")
+                .withPhone("Keys.NUMPAD7, Keys.NUMPAD9, Keys.NUMPAD1, Keys.NUMPAD2, Keys.NUMPAD3, Keys.NUMPAD4,Keys.NUMPAD5,Keys.NUMPAD6,Keys.NUMPAD7,Keys.NUMPAD8,Keys.NUMPAD9")
+                .withEmail("email@email.com").withPassword("Password").withDescription("Description");
         app.mainPage.openUsers();
-        app.listUsersPage.searchUserByName("Name").editRow1ListUsersClick();
+        app.listUsersPage.createButtonClick();
+        app.createUsersPage.createUser(userDataCreate);
+        app.createUsersPage.successMessageClick();
+
+
+        app.mainPage.openUsers();
+        app.listUsersPage.searchUserByName("Name2").editRow1ListUsersClick();
         app.createUsersPage
                 .loginSetValue("ЙЦУКЕН")
                 .saveButtonClick()
@@ -121,7 +144,7 @@ public class UsersFunctTests extends A_BaseTest
         app.createUsersPage.successMessage.isEnabled();
 
         app.mainPage.openUsers();
-        app.listUsersPage.searchUserByName("Name").editRow1ListUsersClick();
+        app.listUsersPage.searchUserByName("Name2").editRow1ListUsersClick();
         Assert.assertEquals(app.createUsersPage.loginGetValue(), "QWERTY");
 
         app.createUsersPage
@@ -141,7 +164,7 @@ public class UsersFunctTests extends A_BaseTest
                 .saveButtonClick()
                 .loginFieldRequiredClassError.shouldNot(enabled);
         app.createUsersPage.successMessage.click();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.loginGetValue(), "12345678901234567890123456789012345678901234567890");
 
         // Вводим 256 символов.  Сохраняется 255
@@ -150,7 +173,7 @@ public class UsersFunctTests extends A_BaseTest
                 .saveButtonClick()
                 .loginFieldRequiredClassError.shouldNot(enabled);
         app.createUsersPage.successMessage.click();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.loginGetValue(), "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345");
 
         app.createUsersPage
@@ -158,25 +181,39 @@ public class UsersFunctTests extends A_BaseTest
                 .saveButtonClick()
                 .loginFieldRequiredClassError.shouldNot(enabled);
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.loginGetValue(), "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345");
 
         app.createUsersPage
-                .loginSetValue("Login")
+                .loginSetValue("Login2")
                 .saveButtonClick();
+
+        app.mainPage.openUsers();
+        app.listUsersPage.deleteUserBySearchName("Name2");
     }
 
     @Test
     // 4568 Пользователи. Значения поля Имя
+    // Todo разобраться с кавычками в проверках спецсимволов
     public void E_valuesFieldsName() {
+        UsersData userDataCreate = new UsersData()
+                .withLogin("Login3").withName("Name3").withSurname("Surname3").withFathername("Fathername")
+                .withPhone("Keys.NUMPAD7, Keys.NUMPAD9, Keys.NUMPAD1, Keys.NUMPAD2, Keys.NUMPAD3, Keys.NUMPAD4,Keys.NUMPAD5,Keys.NUMPAD6,Keys.NUMPAD7,Keys.NUMPAD8,Keys.NUMPAD9")
+                .withEmail("email@email.com").withPassword("Password").withDescription("Description");
         app.mainPage.openUsers();
-        app.listUsersPage.searchUserByName("Name").editRow1ListUsersClick();
+        app.listUsersPage.createButtonClick();
+        app.createUsersPage.createUser(userDataCreate);
+        app.createUsersPage.successMessageClick();
+
+
+        app.mainPage.openUsers();
+        app.listUsersPage.searchUserByName("Name3").editRow1ListUsersClick();
         app.createUsersPage
                 .nameSetValue("ЙЦУКЕН")
                 .saveButtonClick()
                 .nameFieldRequiredClassError.shouldNot(enabled);
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.nameGetValue(), "ЙЦУКЕН");
 
         app.createUsersPage
@@ -184,23 +221,23 @@ public class UsersFunctTests extends A_BaseTest
                 .saveButtonClick()
                 .nameFieldRequiredClassError.shouldNot(enabled);
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.nameGetValue(), "QWERTY");
 
         app.createUsersPage
-                .nameSetValue("!\"№;%:?*()_+")
+                .nameSetValue("!№\";%:?*()_+")
                 .saveButtonClick()
                 .nameFieldRequiredClassError.shouldNot(enabled);
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
-        Assert.assertEquals(app.createUsersPage.nameGetValue(), "!\"№;%:?*()_+");
+        Driver.refresh();
+        Assert.assertEquals(app.createUsersPage.nameGetValue(), "!№\";%:?*()_+");
 
         app.createUsersPage
                 .nameSetValue("АбВThx&*^")
                 .saveButtonClick()
                 .nameFieldRequiredClassError.shouldNot(enabled);
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.nameGetValue(), "АбВThx&*^");
 
         app.createUsersPage
@@ -208,7 +245,7 @@ public class UsersFunctTests extends A_BaseTest
                 .saveButtonClick()
                 .nameFieldRequiredClassError.shouldNot(enabled);
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.nameGetValue(), "12345678901234567890123456789012345678901234567890");
 
         // Вводим 256 символов.  Сохраняется 255
@@ -217,7 +254,7 @@ public class UsersFunctTests extends A_BaseTest
                 .saveButtonClick()
                 .nameFieldRequiredClassError.shouldNot(enabled);
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.nameGetValue(), "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345");
 
         app.createUsersPage
@@ -225,25 +262,38 @@ public class UsersFunctTests extends A_BaseTest
                 .saveButtonClick()
                 .nameFieldRequiredClassError.shouldNot(enabled);
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.nameGetValue(), "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345");
 
         app.createUsersPage
-                .nameSetValue("Name")
+                .nameSetValue("Name3")
                 .saveButtonClick();
+
+        app.mainPage.openUsers();
+        app.listUsersPage.deleteUserBySearchName("Name3");
     }
 
     @Test
     // 3907 Пользователи. Значения поля Фамилия
     public void F_valuesFieldsSurname() {
+        UsersData userDataCreate = new UsersData()
+                .withLogin("Login4").withName("Name4").withSurname("Surname4").withFathername("Fathername")
+                .withPhone("Keys.NUMPAD7, Keys.NUMPAD9, Keys.NUMPAD1, Keys.NUMPAD2, Keys.NUMPAD3, Keys.NUMPAD4,Keys.NUMPAD5,Keys.NUMPAD6,Keys.NUMPAD7,Keys.NUMPAD8,Keys.NUMPAD9")
+                .withEmail("email@email.com").withPassword("Password").withDescription("Description");
         app.mainPage.openUsers();
-        app.listUsersPage.searchUserByName("Name").editRow1ListUsersClick();
+        app.listUsersPage.createButtonClick();
+        app.createUsersPage.createUser(userDataCreate);
+        app.createUsersPage.successMessageClick();
+
+
+        app.mainPage.openUsers();
+        app.listUsersPage.searchUserByName("Name4").editRow1ListUsersClick();
         app.createUsersPage
                 .surnameSetValue("ЙЦУКЕН")
                 .saveButtonClick()
                 .surnameFieldRequiredClassError.shouldNot(enabled);
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.surnameGetValue(), "ЙЦУКЕН");
 
         app.createUsersPage
@@ -251,7 +301,7 @@ public class UsersFunctTests extends A_BaseTest
                 .saveButtonClick()
                 .surnameFieldRequiredClassError.shouldNot(enabled);
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.surnameGetValue(), "QWERTY");
 
         app.createUsersPage
@@ -259,7 +309,7 @@ public class UsersFunctTests extends A_BaseTest
                 .saveButtonClick()
                 .surnameFieldRequiredClassError.shouldNot(enabled);
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.surnameGetValue(), "!\"№;%:?*()_+");
 
         app.createUsersPage
@@ -267,7 +317,7 @@ public class UsersFunctTests extends A_BaseTest
                 .saveButtonClick()
                 .surnameFieldRequiredClassError.shouldNot(enabled);
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.surnameGetValue(), "АбВThx&*^");
 
         app.createUsersPage
@@ -275,7 +325,7 @@ public class UsersFunctTests extends A_BaseTest
                 .saveButtonClick()
                 .surnameFieldRequiredClassError.shouldNot(enabled);
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.surnameGetValue(), "12345678901234567890123456789012345678901234567890");
         // Вводим 256 символов.  Сохраняется 255
         app.createUsersPage
@@ -283,7 +333,7 @@ public class UsersFunctTests extends A_BaseTest
                 .saveButtonClick()
                 .surnameFieldRequiredClassError.shouldNot(enabled);
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.surnameGetValue(), "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345");
 
         app.createUsersPage
@@ -291,130 +341,159 @@ public class UsersFunctTests extends A_BaseTest
                 .saveButtonClick()
                 .surnameFieldRequiredClassError.shouldNot(enabled);
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.surnameGetValue(), "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345");
 
         app.createUsersPage
-                .surnameSetValue("Surname")
+                .surnameSetValue("Surname4")
                 .saveButtonClick();
+
+        app.mainPage.openUsers();
+        app.listUsersPage.deleteUserBySearchName("Name4");
     }
 
-    @Test
+    /*@Test
     // 3908 Пользователи. Значения поля Описание
     public void G_valuesFieldsDescription() {
+        UsersData userDataCreate = new UsersData()
+                .withLogin("Login5").withName("Name5").withSurname("Surname5").withFathername("Fathername")
+                .withPhone("Keys.NUMPAD7, Keys.NUMPAD9, Keys.NUMPAD1, Keys.NUMPAD2, Keys.NUMPAD3, Keys.NUMPAD4,Keys.NUMPAD5,Keys.NUMPAD6,Keys.NUMPAD7,Keys.NUMPAD8,Keys.NUMPAD9")
+                .withEmail("email@email.com").withPassword("Password").withDescription("Description");
         app.mainPage.openUsers();
-        app.listUsersPage.searchUserByName("Name").editRow1ListUsersClick();
+        app.listUsersPage.createButtonClick();
+        app.createUsersPage.createUser(userDataCreate);
+        app.createUsersPage.successMessageClick();
+
+
+        app.mainPage.openUsers();
+        app.listUsersPage.searchUserByName("Name5").editRow1ListUsersClick();
         app.createUsersPage
                 .descriptionSetValue("ЙЦУКЕН")
                 .saveButtonClick();
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.descriptionGetValue(), "ЙЦУКЕН");
 
         app.createUsersPage
                 .descriptionSetValue("QWERTY")
                 .saveButtonClick();
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.descriptionGetValue(), "QWERTY");
 
         app.createUsersPage
                 .descriptionSetValue("!\"№;%:?*()_+")
                 .saveButtonClick();
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.descriptionGetValue(), "!\"№;%:?*()_+");
 
         app.createUsersPage
                 .descriptionSetValue("АбВThx&*^")
                 .saveButtonClick();
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.descriptionGetValue(), "АбВThx&*^");
 
         app.createUsersPage
                 .descriptionSetValue("12345678901234567890123456789012345678901234567890")
                 .saveButtonClick();
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.descriptionGetValue(), "12345678901234567890123456789012345678901234567890");
         // Вводим 256 символов.  Сохраняется 255
         app.createUsersPage
                 .descriptionSetValue("1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456")
                 .saveButtonClick();
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.descriptionGetValue(), "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345");
 
         app.createUsersPage
                 .descriptionSetValue("123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345")
                 .saveButtonClick();
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.descriptionGetValue(), "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345");
 
         app.createUsersPage
                 .descriptionSetValue("Description")
                 .saveButtonClick();
+
+        app.mainPage.openUsers();
+        app.listUsersPage.deleteUserBySearchName("Name5");
     }
 
     @Test
     // 4569 Пользователи. Значение поля Отчество
     public void H_valuesFieldsFathername() {
+        UsersData userDataCreate = new UsersData()
+                .withLogin("Login6").withName("Name6").withSurname("Surname6").withFathername("Fathername")
+                .withPhone("Keys.NUMPAD7, Keys.NUMPAD9, Keys.NUMPAD1, Keys.NUMPAD2, Keys.NUMPAD3, Keys.NUMPAD4,Keys.NUMPAD5,Keys.NUMPAD6,Keys.NUMPAD7,Keys.NUMPAD8,Keys.NUMPAD9")
+                .withEmail("email@email.com").withPassword("Password").withDescription("Description");
         app.mainPage.openUsers();
-        app.listUsersPage.searchUserByName("Name").editRow1ListUsersClick();
+        app.listUsersPage.createButtonClick();
+        app.createUsersPage.createUser(userDataCreate);
+        app.createUsersPage.successMessageClick();
+
+
+        app.mainPage.openUsers();
+        app.listUsersPage.searchUserByName("Name6").editRow1ListUsersClick();
         app.createUsersPage
                 .fathernameSetValue("ЙЦУКЕН")
                 .saveButtonClick();
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.fathernameGetValue(), "ЙЦУКЕН");
 
         app.createUsersPage
                 .fathernameSetValue("QWERTY")
                 .saveButtonClick();
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.fathernameGetValue(), "QWERTY");
 
         app.createUsersPage
                 .fathernameSetValue("!\"№;%:?*()_+")
                 .saveButtonClick();
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.fathernameGetValue(), "!\"№;%:?*()_+");
 
         app.createUsersPage
                 .fathernameSetValue("АбВThx&*^")
                 .saveButtonClick();
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.fathernameGetValue(), "АбВThx&*^");
 
         app.createUsersPage
                 .fathernameSetValue("12345678901234567890123456789012345678901234567890")
                 .saveButtonClick();
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.fathernameGetValue(), "12345678901234567890123456789012345678901234567890");
         // Вводим 256 символов.  Сохраняется 255
         app.createUsersPage
                 .fathernameSetValue("1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456")
                 .saveButtonClick();
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.fathernameGetValue(), "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345");
 
         app.createUsersPage
                 .fathernameSetValue("123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345")
                 .saveButtonClick();
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.fathernameGetValue(), "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345");
 
         app.createUsersPage
                 .fathernameSetValue("Fathername")
                 .saveButtonClick();
+
+        app.mainPage.openUsers();
+        app.listUsersPage.deleteUserBySearchName("Name6");
     }
 
 
@@ -435,35 +514,35 @@ public class UsersFunctTests extends A_BaseTest
                 .emailSetValue("pochta@mail.ru")
                 .saveButtonClick();
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.emailGetValue(), "pochta@mail.ru");
 
         app.createUsersPage
                 .emailSetValue("poch-ta@mail.ru")
                 .saveButtonClick();
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.emailGetValue(), "poch-ta@mail.ru");
 
         app.createUsersPage
                 .emailSetValue("pochta@ma-il.ru")
                 .saveButtonClick();
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.emailGetValue(), "pochta@ma-il.ru");
 
         app.createUsersPage
                 .emailSetValue("poch_ta@mail.ru")
                 .saveButtonClick();
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.emailGetValue(), "poch_ta@mail.ru");
 
         app.createUsersPage
                 .emailSetValue("pochta@ma_il.ru")
                 .saveButtonClick();
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.emailGetValue(), "pochta@ma_il.ru");
 
         app.mainPage.openUsers();
@@ -472,7 +551,7 @@ public class UsersFunctTests extends A_BaseTest
                 .emailSetValue("p.och.ta@mail.ru")
                 .saveButtonClick();
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.emailGetValue(), "p.och.ta@mail.ru");
 
         app.createUsersPage
@@ -480,7 +559,7 @@ public class UsersFunctTests extends A_BaseTest
                 .saveButtonClick()
                 .shouldHaveClass(app.createUsersPage.emailFieldClass, app.createUsersPage.highlightClass);
         Assert.assertEquals(app.createUsersPage.emailFieldClassError.getText(), "Некорректный email");
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.emailGetValue(), "p.och.ta@mail.ru");
 
         app.createUsersPage
@@ -488,7 +567,7 @@ public class UsersFunctTests extends A_BaseTest
                 .saveButtonClick()
                 .shouldHaveClass(app.createUsersPage.emailFieldClass, app.createUsersPage.highlightClass);
         Assert.assertEquals(app.createUsersPage.emailFieldClassError.getText(), "Некорректный email");
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.emailGetValue(), "p.och.ta@mail.ru");
 
         app.createUsersPage
@@ -496,7 +575,7 @@ public class UsersFunctTests extends A_BaseTest
                 .saveButtonClick()
                 .shouldHaveClass(app.createUsersPage.emailFieldClass, app.createUsersPage.highlightClass);
         Assert.assertEquals(app.createUsersPage.emailFieldClassError.getText(), "Некорректный email");
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.emailGetValue(), "p.och.ta@mail.ru");
 
         app.createUsersPage
@@ -504,7 +583,7 @@ public class UsersFunctTests extends A_BaseTest
                 .saveButtonClick()
                 .shouldHaveClass(app.createUsersPage.emailFieldClass, app.createUsersPage.highlightClass);
         Assert.assertEquals(app.createUsersPage.emailFieldClassError.getText(), "Некорректный email");
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.emailGetValue(), "p.och.ta@mail.ru");
 
         app.createUsersPage
@@ -512,7 +591,7 @@ public class UsersFunctTests extends A_BaseTest
                 .saveButtonClick()
                 .shouldHaveClass(app.createUsersPage.emailFieldClass, app.createUsersPage.highlightClass);
         Assert.assertEquals(app.createUsersPage.emailFieldClassError.getText(), "Некорректный email");
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.emailGetValue(), "p.och.ta@mail.ru");
 
         app.createUsersPage
@@ -520,7 +599,7 @@ public class UsersFunctTests extends A_BaseTest
                 .saveButtonClick()
                 .shouldHaveClass(app.createUsersPage.emailFieldClass, app.createUsersPage.highlightClass);
         Assert.assertEquals(app.createUsersPage.emailFieldClassError.getText(), "Некорректный email");
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.emailGetValue(), "p.och.ta@mail.ru");
 
         app.createUsersPage
@@ -528,25 +607,25 @@ public class UsersFunctTests extends A_BaseTest
                 .saveButtonClick()
                 .shouldHaveClass(app.createUsersPage.emailFieldClass, app.createUsersPage.highlightClass);
         Assert.assertEquals(app.createUsersPage.emailFieldClassError.getText(), "Некорректный email");
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.emailGetValue(), "p.och.ta@mail.ru");
 
         app.createUsersPage
                 .emailSetValue("емейл@почта.ру")
                 .saveButtonClick();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.emailGetValue(), "емейл@почта.ру");
         app.mainPage.openUsers();
         app.listUsersPage.deleteUserBySearchName("TestEmail");
 
-        /*app.createUsersPage
-                .emailSetValue("pochta@ma.il...ru")
-                .saveButtonClick()
-                .shouldHaveClass(app.createUsersPage.emailFieldClass, app.createUsersPage.highlightClass);
-        Assert.assertEquals(app.createUsersPage.emailFieldClassError.getText(), "Некорректный email");
-        Selenide.refresh();
-        Assert.assertEquals(app.createUsersPage.emailGetValue(), "p.och.ta@mail.ru");
-        */
+        //app.createUsersPage
+                //.emailSetValue("pochta@ma.il...ru")
+                //.saveButtonClick()
+               // .shouldHaveClass(app.createUsersPage.emailFieldClass, app.createUsersPage.highlightClass);
+        //Assert.assertEquals(app.createUsersPage.emailFieldClassError.getText(), "Некорректный email");
+        //Selenide.refresh();
+        //Assert.assertEquals(app.createUsersPage.emailGetValue(), "p.och.ta@mail.ru");
+
     }
 
 
@@ -554,45 +633,57 @@ public class UsersFunctTests extends A_BaseTest
     // 4570 Пользователи. Проверка поля Телефон на наличие маски
     // TODO Добавить проверку маски
     public void J_valuesFieldsPhone() {
+        UsersData userDataCreate = new UsersData()
+                .withLogin("Login7").withName("Name7").withSurname("Surname7").withFathername("Fathername")
+                .withPhone("Keys.NUMPAD7, Keys.NUMPAD9, Keys.NUMPAD1, Keys.NUMPAD2, Keys.NUMPAD3, Keys.NUMPAD4,Keys.NUMPAD5,Keys.NUMPAD6,Keys.NUMPAD7,Keys.NUMPAD8,Keys.NUMPAD9")
+                .withEmail("email@email.com").withPassword("Password").withDescription("Description");
         app.mainPage.openUsers();
-        app.listUsersPage.searchUserByName("Name").editRow1ListUsersClick();
+        app.listUsersPage.createButtonClick();
+        app.createUsersPage.createUser(userDataCreate);
+        app.createUsersPage.successMessageClick();
+
+
+        app.mainPage.openUsers();
+        app.listUsersPage.searchUserByName("Name7").editRow1ListUsersClick();
 
         // Редактируем, в поле телефон вводим "абв"
         app.createUsersPage
                 .phoneSetValue("Keys.LEFT_SHIFT, \"а\", Keys.LEFT_SHIFT, \"б\", Keys.LEFT_SHIFT, \"в\"")
                 .saveButtonClick();
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.phoneGetValue(), "");
         // Вводим "werwer"
         app.createUsersPage
                 .phoneSetValue("Keys.LEFT_SHIFT, \"w\", Keys.LEFT_SHIFT, \"e\", Keys.LEFT_SHIFT, \"r\",Keys.LEFT_SHIFT, \"w\", Keys.LEFT_SHIFT, \"e\", Keys.LEFT_SHIFT, \"r\"")
                 .saveButtonClick();
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.phoneGetValue(), "");
         // Вводим спецсимволы
         app.createUsersPage
                 .phoneSetValue("Keys.LEFT_SHIFT, \";\", Keys.LEFT_SHIFT, \"/\", Keys.LEFT_SHIFT, \"#\", Keys.LEFT_SHIFT, \"*\", Keys.LEFT_SHIFT, \"-\"")
                 .saveButtonClick();
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.phoneGetValue(), "");
         // Вводим 79876543210
         app.createUsersPage
                 .phoneSetValue("Keys.NUMPAD7, Keys.NUMPAD9, Keys.NUMPAD8, Keys.NUMPAD7, Keys.NUMPAD6, Keys.NUMPAD5,Keys.NUMPAD4,Keys.NUMPAD3,Keys.NUMPAD2,Keys.NUMPAD1,Keys.NUMPAD0")
                 .saveButtonClick();
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.phoneGetValue(), "+79876543210");
         // Вводим 79876543210897
         app.createUsersPage
                 .phoneSetValue("Keys.NUMPAD7, Keys.NUMPAD9, Keys.NUMPAD8, Keys.NUMPAD7, Keys.NUMPAD6, Keys.NUMPAD5,Keys.NUMPAD4,Keys.NUMPAD3,Keys.NUMPAD2,Keys.NUMPAD1,Keys.NUMPAD0,Keys.NUMPAD8,Keys.NUMPAD9,Keys.NUMPAD7")
                 .saveButtonClick();
         app.createUsersPage.successMessage.isEnabled();
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.phoneGetValue(), "+79876543210");
 
+        app.mainPage.openUsers();
+        app.listUsersPage.deleteUserBySearchName("Name7");
     }
 
     @Test
@@ -654,7 +745,7 @@ public class UsersFunctTests extends A_BaseTest
         app.createUsersPage.loginSetValue("TestOne").saveButtonClick();
         app.createUsersPage.message.isEnabled();
         Assert.assertEquals(app.createUsersPage.messageGetValue(), "Пользователь с таким логином уже существует в системе");
-        Selenide.refresh();
+        Driver.refresh();
         Assert.assertEquals(app.createUsersPage.loginGetValue(), "TestTwo");
 
         app.mainPage.openUsers();
@@ -734,13 +825,13 @@ public class UsersFunctTests extends A_BaseTest
         app.mainPage.openUsers();
         app.listUsersPage.deleteUserBySearchName("TestRegistr");
     }
+    */
 
     /*@Test
     public void O_deleteUser() {
         app.mainPage.openUsers();
         app.listUsersPage.deleteUserBySearchName("Name");
-    }
-    */
+    }*/
 
     //@Test
     // 3924 Пользователи. Одновременная авторизация в разных браузерах
