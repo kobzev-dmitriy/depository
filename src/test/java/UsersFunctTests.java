@@ -352,7 +352,7 @@ public class UsersFunctTests extends A_BaseTest
         app.listUsersPage.deleteUserBySearchName("Name4");
     }
 
-    @Test
+    /*@Test
     // 3908 Пользователи. Значения поля Описание
     public void G_valuesFieldsDescription() {
         UsersData userDataCreate = new UsersData()
@@ -618,14 +618,14 @@ public class UsersFunctTests extends A_BaseTest
         app.mainPage.openUsers();
         app.listUsersPage.deleteUserBySearchName("TestEmail");
 
-        /*app.createUsersPage
-                .emailSetValue("pochta@ma.il...ru")
-                .saveButtonClick()
-                .shouldHaveClass(app.createUsersPage.emailFieldClass, app.createUsersPage.highlightClass);
-        Assert.assertEquals(app.createUsersPage.emailFieldClassError.getText(), "Некорректный email");
-        Selenide.refresh();
-        Assert.assertEquals(app.createUsersPage.emailGetValue(), "p.och.ta@mail.ru");
-        */
+        //app.createUsersPage
+                //.emailSetValue("pochta@ma.il...ru")
+                //.saveButtonClick()
+               // .shouldHaveClass(app.createUsersPage.emailFieldClass, app.createUsersPage.highlightClass);
+        //Assert.assertEquals(app.createUsersPage.emailFieldClassError.getText(), "Некорректный email");
+        //Selenide.refresh();
+        //Assert.assertEquals(app.createUsersPage.emailGetValue(), "p.och.ta@mail.ru");
+
     }
 
 
@@ -825,6 +825,7 @@ public class UsersFunctTests extends A_BaseTest
         app.mainPage.openUsers();
         app.listUsersPage.deleteUserBySearchName("TestRegistr");
     }
+    */
 
     /*@Test
     public void O_deleteUser() {

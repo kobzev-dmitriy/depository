@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 
 public class UsersScenarTests extends A_BaseTest {
 
-    @Test
+    /*@Test
     // 3897 Пользователи. Создание пользователя
     public void A_createUser() {
         UsersData userData = new UsersData()
@@ -902,4 +902,5 @@ public class UsersScenarTests extends A_BaseTest {
         app.mainPage.openUsers();
         app.listUsersPage.deleteUserBySearchName("zzzzzzzzz2");
     }
+    */
 }
