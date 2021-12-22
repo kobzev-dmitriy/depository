@@ -53,7 +53,7 @@ public class UsersFunctTests extends A_BaseTest
     // 4595 Пользователи. Внешний вид и обязательные поля при редактировании
     public void C_reguiredFieldsEditFormUser() {
         UsersData userDataCreate = new UsersData()
-                .withLogin("Login").withName("Name").withSurname("Surname").withFathername("Fathername")
+                .withLogin("Login1").withName("Name1").withSurname("Surname1").withFathername("Fathername")
                 .withPhone("Keys.NUMPAD7, Keys.NUMPAD9, Keys.NUMPAD1, Keys.NUMPAD2, Keys.NUMPAD3, Keys.NUMPAD4,Keys.NUMPAD5,Keys.NUMPAD6,Keys.NUMPAD7,Keys.NUMPAD8,Keys.NUMPAD9")
                 .withEmail("email@email.com").withPassword("Password").withDescription("Description");
         app.mainPage.openUsers();
@@ -62,12 +62,12 @@ public class UsersFunctTests extends A_BaseTest
         app.createUsersPage.successMessageClick();
 
 
-        UsersData userData = new UsersData().withLogin("Login").withName("Name").withSurname("Surname")
+        UsersData userData = new UsersData().withLogin("Login1").withName("Name1").withSurname("Surname1")
                 .withFathername("Fathername").withPhone("79123456789").withEmail("email@email.com").withGroup("Администратор")
                 .withDescription("Description");
 
         app.mainPage.openUsers();
-        app.listUsersPage.searchUserByName("Name");
+        app.listUsersPage.searchUserByName("Name1");
         // Проверяем корректность значений полей в списке пользователей
         Assert.assertEquals(app.listUsersPage.getLoginUsersList(), userData.getLogin());
         Assert.assertEquals(app.listUsersPage.getNameUsersList(), userData.getName());
@@ -101,7 +101,7 @@ public class UsersFunctTests extends A_BaseTest
 
         app.loginPage.open();
         app.mainPage.openUsers();
-        app.listUsersPage.searchUserByName("Name");
+        app.listUsersPage.searchUserByName("Name1");
         app.listUsersPage.editRow1ListUsersClick();
         // Проверяем что изменения не сохранились
         Assert.assertEquals(app.createUsersPage.infoFromEditUserForm().getLogin(), userData.getLogin());
@@ -113,14 +113,14 @@ public class UsersFunctTests extends A_BaseTest
         Assert.assertEquals(app.createUsersPage.infoFromEditUserForm().getDescription(), userData.getDescription());
 
         app.mainPage.openUsers();
-        app.listUsersPage.deleteUserBySearchName("Name");
+        app.listUsersPage.deleteUserBySearchName("Name1");
     }
 
     @Test
     // 3906 Пользователи. Значения поля Логин
     public void D_valuesFieldsLogin() {
         UsersData userDataCreate = new UsersData()
-                .withLogin("Login").withName("Name").withSurname("Surname").withFathername("Fathername")
+                .withLogin("Login2").withName("Name2").withSurname("Surname2").withFathername("Fathername")
                 .withPhone("Keys.NUMPAD7, Keys.NUMPAD9, Keys.NUMPAD1, Keys.NUMPAD2, Keys.NUMPAD3, Keys.NUMPAD4,Keys.NUMPAD5,Keys.NUMPAD6,Keys.NUMPAD7,Keys.NUMPAD8,Keys.NUMPAD9")
                 .withEmail("email@email.com").withPassword("Password").withDescription("Description");
         app.mainPage.openUsers();
@@ -130,7 +130,7 @@ public class UsersFunctTests extends A_BaseTest
 
 
         app.mainPage.openUsers();
-        app.listUsersPage.searchUserByName("Name").editRow1ListUsersClick();
+        app.listUsersPage.searchUserByName("Name2").editRow1ListUsersClick();
         app.createUsersPage
                 .loginSetValue("ЙЦУКЕН")
                 .saveButtonClick()
@@ -144,7 +144,7 @@ public class UsersFunctTests extends A_BaseTest
         app.createUsersPage.successMessage.isEnabled();
 
         app.mainPage.openUsers();
-        app.listUsersPage.searchUserByName("Name").editRow1ListUsersClick();
+        app.listUsersPage.searchUserByName("Name2").editRow1ListUsersClick();
         Assert.assertEquals(app.createUsersPage.loginGetValue(), "QWERTY");
 
         app.createUsersPage
@@ -185,11 +185,11 @@ public class UsersFunctTests extends A_BaseTest
         Assert.assertEquals(app.createUsersPage.loginGetValue(), "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345");
 
         app.createUsersPage
-                .loginSetValue("Login")
+                .loginSetValue("Login2")
                 .saveButtonClick();
 
         app.mainPage.openUsers();
-        app.listUsersPage.deleteUserBySearchName("Name");
+        app.listUsersPage.deleteUserBySearchName("Name2");
     }
 
     @Test
@@ -197,7 +197,7 @@ public class UsersFunctTests extends A_BaseTest
     // Todo разобраться с кавычками в проверках спецсимволов
     public void E_valuesFieldsName() {
         UsersData userDataCreate = new UsersData()
-                .withLogin("Login").withName("Name").withSurname("Surname").withFathername("Fathername")
+                .withLogin("Login3").withName("Name3").withSurname("Surname3").withFathername("Fathername")
                 .withPhone("Keys.NUMPAD7, Keys.NUMPAD9, Keys.NUMPAD1, Keys.NUMPAD2, Keys.NUMPAD3, Keys.NUMPAD4,Keys.NUMPAD5,Keys.NUMPAD6,Keys.NUMPAD7,Keys.NUMPAD8,Keys.NUMPAD9")
                 .withEmail("email@email.com").withPassword("Password").withDescription("Description");
         app.mainPage.openUsers();
@@ -207,7 +207,7 @@ public class UsersFunctTests extends A_BaseTest
 
 
         app.mainPage.openUsers();
-        app.listUsersPage.searchUserByName("Name").editRow1ListUsersClick();
+        app.listUsersPage.searchUserByName("Name3").editRow1ListUsersClick();
         app.createUsersPage
                 .nameSetValue("ЙЦУКЕН")
                 .saveButtonClick()
@@ -266,18 +266,18 @@ public class UsersFunctTests extends A_BaseTest
         Assert.assertEquals(app.createUsersPage.nameGetValue(), "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345");
 
         app.createUsersPage
-                .nameSetValue("Name")
+                .nameSetValue("Name3")
                 .saveButtonClick();
 
         app.mainPage.openUsers();
-        app.listUsersPage.deleteUserBySearchName("Name");
+        app.listUsersPage.deleteUserBySearchName("Name3");
     }
 
     @Test
     // 3907 Пользователи. Значения поля Фамилия
     public void F_valuesFieldsSurname() {
         UsersData userDataCreate = new UsersData()
-                .withLogin("Login").withName("Name").withSurname("Surname").withFathername("Fathername")
+                .withLogin("Login4").withName("Name4").withSurname("Surname4").withFathername("Fathername")
                 .withPhone("Keys.NUMPAD7, Keys.NUMPAD9, Keys.NUMPAD1, Keys.NUMPAD2, Keys.NUMPAD3, Keys.NUMPAD4,Keys.NUMPAD5,Keys.NUMPAD6,Keys.NUMPAD7,Keys.NUMPAD8,Keys.NUMPAD9")
                 .withEmail("email@email.com").withPassword("Password").withDescription("Description");
         app.mainPage.openUsers();
@@ -287,7 +287,7 @@ public class UsersFunctTests extends A_BaseTest
 
 
         app.mainPage.openUsers();
-        app.listUsersPage.searchUserByName("Name").editRow1ListUsersClick();
+        app.listUsersPage.searchUserByName("Name4").editRow1ListUsersClick();
         app.createUsersPage
                 .surnameSetValue("ЙЦУКЕН")
                 .saveButtonClick()
@@ -345,18 +345,18 @@ public class UsersFunctTests extends A_BaseTest
         Assert.assertEquals(app.createUsersPage.surnameGetValue(), "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345");
 
         app.createUsersPage
-                .surnameSetValue("Surname")
+                .surnameSetValue("Surname4")
                 .saveButtonClick();
 
         app.mainPage.openUsers();
-        app.listUsersPage.deleteUserBySearchName("Name");
+        app.listUsersPage.deleteUserBySearchName("Name4");
     }
 
     @Test
     // 3908 Пользователи. Значения поля Описание
     public void G_valuesFieldsDescription() {
         UsersData userDataCreate = new UsersData()
-                .withLogin("Login").withName("Name").withSurname("Surname").withFathername("Fathername")
+                .withLogin("Login5").withName("Name5").withSurname("Surname5").withFathername("Fathername")
                 .withPhone("Keys.NUMPAD7, Keys.NUMPAD9, Keys.NUMPAD1, Keys.NUMPAD2, Keys.NUMPAD3, Keys.NUMPAD4,Keys.NUMPAD5,Keys.NUMPAD6,Keys.NUMPAD7,Keys.NUMPAD8,Keys.NUMPAD9")
                 .withEmail("email@email.com").withPassword("Password").withDescription("Description");
         app.mainPage.openUsers();
@@ -366,7 +366,7 @@ public class UsersFunctTests extends A_BaseTest
 
 
         app.mainPage.openUsers();
-        app.listUsersPage.searchUserByName("Name").editRow1ListUsersClick();
+        app.listUsersPage.searchUserByName("Name5").editRow1ListUsersClick();
         app.createUsersPage
                 .descriptionSetValue("ЙЦУКЕН")
                 .saveButtonClick();
@@ -421,14 +421,14 @@ public class UsersFunctTests extends A_BaseTest
                 .saveButtonClick();
 
         app.mainPage.openUsers();
-        app.listUsersPage.deleteUserBySearchName("Name");
+        app.listUsersPage.deleteUserBySearchName("Name5");
     }
 
     @Test
     // 4569 Пользователи. Значение поля Отчество
     public void H_valuesFieldsFathername() {
         UsersData userDataCreate = new UsersData()
-                .withLogin("Login").withName("Name").withSurname("Surname").withFathername("Fathername")
+                .withLogin("Login6").withName("Name6").withSurname("Surname6").withFathername("Fathername")
                 .withPhone("Keys.NUMPAD7, Keys.NUMPAD9, Keys.NUMPAD1, Keys.NUMPAD2, Keys.NUMPAD3, Keys.NUMPAD4,Keys.NUMPAD5,Keys.NUMPAD6,Keys.NUMPAD7,Keys.NUMPAD8,Keys.NUMPAD9")
                 .withEmail("email@email.com").withPassword("Password").withDescription("Description");
         app.mainPage.openUsers();
@@ -438,7 +438,7 @@ public class UsersFunctTests extends A_BaseTest
 
 
         app.mainPage.openUsers();
-        app.listUsersPage.searchUserByName("Name").editRow1ListUsersClick();
+        app.listUsersPage.searchUserByName("Name6").editRow1ListUsersClick();
         app.createUsersPage
                 .fathernameSetValue("ЙЦУКЕН")
                 .saveButtonClick();
@@ -493,7 +493,7 @@ public class UsersFunctTests extends A_BaseTest
                 .saveButtonClick();
 
         app.mainPage.openUsers();
-        app.listUsersPage.deleteUserBySearchName("Name");
+        app.listUsersPage.deleteUserBySearchName("Name6");
     }
 
 
@@ -634,7 +634,7 @@ public class UsersFunctTests extends A_BaseTest
     // TODO Добавить проверку маски
     public void J_valuesFieldsPhone() {
         UsersData userDataCreate = new UsersData()
-                .withLogin("Login").withName("Name").withSurname("Surname").withFathername("Fathername")
+                .withLogin("Login7").withName("Name7").withSurname("Surname7").withFathername("Fathername")
                 .withPhone("Keys.NUMPAD7, Keys.NUMPAD9, Keys.NUMPAD1, Keys.NUMPAD2, Keys.NUMPAD3, Keys.NUMPAD4,Keys.NUMPAD5,Keys.NUMPAD6,Keys.NUMPAD7,Keys.NUMPAD8,Keys.NUMPAD9")
                 .withEmail("email@email.com").withPassword("Password").withDescription("Description");
         app.mainPage.openUsers();
@@ -644,7 +644,7 @@ public class UsersFunctTests extends A_BaseTest
 
 
         app.mainPage.openUsers();
-        app.listUsersPage.searchUserByName("Name").editRow1ListUsersClick();
+        app.listUsersPage.searchUserByName("Name7").editRow1ListUsersClick();
 
         // Редактируем, в поле телефон вводим "абв"
         app.createUsersPage
@@ -683,7 +683,7 @@ public class UsersFunctTests extends A_BaseTest
         Assert.assertEquals(app.createUsersPage.phoneGetValue(), "+79876543210");
 
         app.mainPage.openUsers();
-        app.listUsersPage.deleteUserBySearchName("Name");
+        app.listUsersPage.deleteUserBySearchName("Name7");
     }
 
     @Test

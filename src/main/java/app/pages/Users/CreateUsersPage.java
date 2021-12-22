@@ -18,7 +18,8 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 
 public class CreateUsersPage extends MainPage {
-    public SelenideElement activityCheckbox = $(By.xpath("//input[contains(@class, 'checkbox__content')]")).find(By.xpath("./ancestor::fieldset[contains(@class, 'fieldset mb-3')][1]"));
+    public SelenideElement activityCheckboxContainer = $(By.xpath("//input[contains(@class, 'checkbox__content')]")).find(By.xpath("./ancestor::fieldset[contains(@class, 'fieldset mb-3')][1]"));
+    public SelenideElement activityCheckbox = $(By.xpath("//input[contains(@class, 'checkbox__content')]"));
 
     public SelenideElement loginField = $("input[name='login']");
     public SelenideElement loginFieldRequiredClass = loginField.find(By.xpath("./ancestor::fieldset[contains(@class, 'fieldset mb-3')][1]"));
@@ -90,7 +91,7 @@ public class CreateUsersPage extends MainPage {
     }
 
     public CreateUsersPage activityClick(){
-        activityCheckbox.click();
+        activityCheckboxContainer.click();
         return this;
     }
 

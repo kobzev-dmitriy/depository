@@ -826,7 +826,7 @@ public class UsersScenarTests extends A_BaseTest {
     @Test
     // 3920 Пользователи. Создание, авторизация 25+
     public void Q_createLoginUser25plus() {
-        // В системе предварительно заведено минимум 27 пользователей
+        // Предусловие: В системе предварительно заведено минимум 27 пользователей
         UsersData userData = new UsersData()
                 .withLogin("zzzzzzzzz").withName("zzzzzzzzz").withSurname("zzzzzzzzz").withFathername("zzzzzzzzz")
                 .withPhone("Keys.NUMPAD9, Keys.NUMPAD9, Keys.NUMPAD9, Keys.NUMPAD9, Keys.NUMPAD9, Keys.NUMPAD9,Keys.NUMPAD9,Keys.NUMPAD9,Keys.NUMPAD9,Keys.NUMPAD9,Keys.NUMPAD9")
