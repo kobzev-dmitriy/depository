@@ -232,6 +232,7 @@ public class CreateUsersPage extends MainPage {
 
     public CreateUsersPage serviceAreaClick(){
         serviceAreaScreen.click(1,1);
+        Driver.wait(1);
         return this;
     }
 

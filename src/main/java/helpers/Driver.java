@@ -52,6 +52,7 @@ public class Driver {
 
     public static WebDriver currentDriver() {
         return WebDriverRunner.getSelenideDriver().getWebDriver();
+        //return WebDriverRunner.getWebDriver();
     }
 
     public static void open(String url) {
