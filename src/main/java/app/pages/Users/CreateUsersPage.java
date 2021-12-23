@@ -267,7 +267,8 @@ public class CreateUsersPage extends MainPage {
     }
 
     public CreateUsersPage messageErrorClick(){
-        messageError.click();
+        if(messageError.isEnabled())
+            messageError.click();
         return this;
     }
 
