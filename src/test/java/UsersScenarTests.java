@@ -44,7 +44,7 @@ public class UsersScenarTests extends A_BaseTest {
     // 3898 Пользователи. Редактирование пользователя
     public void B_editUser() {
         UsersData userData = new UsersData()
-                .withLogin("TestEdit1").withName("TestEdit1").withSurname("TestEdit").withFathername("TestEdit")
+                .withLogin("TestEdit").withName("TestEdit").withSurname("TestEdit").withFathername("TestEdit")
                 .withPhone("Keys.NUMPAD7, Keys.NUMPAD9, Keys.NUMPAD1, Keys.NUMPAD2, Keys.NUMPAD3, Keys.NUMPAD4,Keys.NUMPAD5,Keys.NUMPAD6,Keys.NUMPAD7,Keys.NUMPAD8,Keys.NUMPAD9")
                 .withEmail("email@email.com").withPassword("TestEdit").withDescription("TestEdit");
         app.mainPage.openUsers();
@@ -84,7 +84,7 @@ public class UsersScenarTests extends A_BaseTest {
         Assert.assertEquals(app.listUsersPage.getActivityUsersList(), "Нет");
 
         app.mainPage.openUsers();
-        app.listUsersPage.deleteUserBySearchName("TestEdit2");
+        app.listUsersPage.deleteUserBySearchName("oygrewgoyrew");
         app.createUsersPage.successMessageClick();
 
     }
