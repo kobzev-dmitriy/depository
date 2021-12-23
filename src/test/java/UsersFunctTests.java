@@ -33,7 +33,7 @@ public class UsersFunctTests extends A_BaseTest
         app.createUsersPage.successMessageClick();
     }*/
 
-    /*@Test
+    @Test
     // 3905 Пользователи. Обязательные поля при создании
     public void B_requiredFieldsCreateUser() {
         app.loginPage.open();
@@ -825,7 +825,6 @@ public class UsersFunctTests extends A_BaseTest
         app.mainPage.openUsers();
         app.listUsersPage.deleteUserBySearchName("TestRegistr");
     }
-    */
 
     /*@Test
     public void O_deleteUser() {
